@@ -2,8 +2,8 @@ const React = require("react");
 const {render} = require("react-dom");
 const _ = require("underscore");
 
+require("browserify-css");
 require("../css/style.css");
-
 
 class App extends React.Component {
     render() {

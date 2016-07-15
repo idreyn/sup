@@ -1,4 +1,7 @@
-wd=`pwd`
+cd $(dirname $0)
+wd=$(pwd)
+cd -
+
 mkdir $1
 
 if [ "$(ls -A $1)" ]; then
