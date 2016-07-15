@@ -1,0 +1,49 @@
+mkdir $1
+
+if [ "$(ls -A $1)" ]; then
+    echo "$1 is not empty...refusing to install"
+    exit 0
+fi
+
+cd $1
+
+
+git init
+curl "https://raw.githubusercontent.com/sane/sane/master/.gitignore" > .gitignore
+
+npm init --force
+
+npm install -g browserify watchify
+
+npm install --save-dev  babelify browserify-css
+npm install --save-dev babel-cli babel-preset-es2016 babel-preset-react
+
+echo '{ presets: ["react","es2016"] }' > .babelrc
+
+npm install --save-dev underscore react react-dom
+
+mkdir js
+cd js
+touch main.jsx
+
+cd ..
+
+mkdir css
+cd css
+touch style.css
+
+cd ..
+
+touch index.html
+
+echo 'browserify js/main.jsx -t babelify -t browserify-css -o bundle.js' > zzz-build
+echo 'watchify js/main.jsx -t babelify -t browserify-css -o bundle.js' > zzz-watch-build
+echo 'python -m SimpleHTTPServer' > zzz-serve
+
+chmod +x zzz-build zzz-watch-build zzz-serve
+
+echo "\n\n# Build scripts\nzzz-build\nzzz-watch-build\nzzz-serve" >> .gitignore
+
+echo "\n\n# Built js\nbundle.js" >> .gitignore
+
+echo "bazoinga!"
